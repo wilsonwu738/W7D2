@@ -1,3 +1,18 @@
-<form action=              > 
+<form action="<%= users_url %>" method="POST">
+  <label for="email">Email:
+    <input type="text" id="email" name="user[email]" value=" <%= @user.email %>" >
+  </label>
+
+  <br>
+  <br>
+
+  <label for="password">Password:
+    <input type="text" id="password" name="user[password]" value=" <%= @user.password %>" >
+  </label>
+
+  <br>
+  <br>
+
+  <input type="submit" value="Create User">
 
 </form>
