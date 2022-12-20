@@ -15,6 +15,18 @@ class User < ApplicationRecord
 
     before_validation :ensure_session_token
 
+    attr_reader :password
+
+    def self.find_by_credentials(email, password)
+        user = User.find_by(email: email)
+        if user && user.check_password?(password)
+            user
+        else
+            nil
+        end
+    end
+
+
     def ensure_session_token
         self.session_token ||= SecureRandom::urlsafe_base64
     end
@@ -28,5 +40,19 @@ class User < ApplicationRecord
         self.save!
         self.session_token
     end
+
+    def password=(password)
+        @password = password
+        self.password_digest = BCrypt::Password.create(password)
+    end
+
+    def check_password?(password)
+        password_object = BCrypt::Password.new(self.password_digest)
+        password_object.is_password?(password)
+    end
+
+
+
+
         
 end
